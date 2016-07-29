@@ -4,8 +4,8 @@
   "description": "Language-helper middleware for Express web server.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
-	"coverage": "istanbul cover _mocha"
+    "test": "`npm bin`/mocha",
+	"coverage": "`npm bin`/istanbul cover `npm bin`/_mocha"
   },
   "repository": {
     "type": "git",

@@ -47,4 +47,6 @@ script:
 # testing provided by coverage
 #  - npm test
   - npm run coverage
+
+after_success:
   - codecov
