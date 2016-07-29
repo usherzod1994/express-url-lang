@@ -1,0 +1,57 @@
+{
+  "name": "express-mw-lang",
+  "version": "0.0.1",
+  "description": "Language-helper middleware for Express web server.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VoleboNet/express-mw-lang.git"
+  },
+  "keywords": [
+    "lang",
+    "i18n",
+    "l10n",
+    "url",
+    "localization",
+    "internationalization",
+    "express",
+    "express-middleware",
+    "middleware",
+    "volebonet"
+  ],
+  "author": {
+    "name": "VoleboNet",
+    "url": "http://volebo.net"
+  },
+  "contributors": [
+    {
+      "name": "Koryukov Maksim",
+      "email": "maxkoryukov@gmail.com"
+    }
+  ],
+  "os": [
+    "linux"
+  ],
+  "engines": {
+    "node": ">=4.0.0",
+    "npm": ">=3.0.0"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/VoleboNet/express-mw-lang/issues"
+  },
+  "homepage": "https://github.com/VoleboNet/express-mw-lang#readme",
+  "dependencies": {
+    "debug": "~2.2.0",
+    "lodash": "^4.13.1"
+  },
+  "devDependencies": {
+    "eslint-config-volebonet": "^1.1.0",
+    "eslint": "^3.1.1",
+    "chai": "^3.5.0",
+    "mocha": "^2.5.3"
+  }
+}

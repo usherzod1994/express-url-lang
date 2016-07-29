@@ -1,0 +1,5 @@
+HEADER
+.travis.yml
+.node-inspectorrc
+.bithoundrc
+.editorconfig
