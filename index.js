@@ -92,27 +92,25 @@ let init = function(options) {
 		.filter()
 		.value();
 
-	debug('defaultLanguage code:', def_lang);
-	debug('available', available);
-
-	const url_wildcard = '/:lang(\\w{2})?:cult([-_]\\w{2})?/';
+	//debug('defaultLanguage', def_lang);
+	//debug('available', available);
 
 	let router = express.Router();
 
 	let lang_parser = function(req, res, next) {
-		let lang = _.get(req.params, 'lang');
+		let lang_code = _.get(req.params, 'lang');
 		let is_def_lang;
 
-		if (_.isNil(lang)) {
+		if (_.isNil(lang_code)) {
 			is_def_lang = true;
-			lang = def_lang;
+			lang_code = def_lang;
 		} else {
 			is_def_lang = false;
-			let lang2 = _.get(req.params, 'cult', '');
-			lang = lang + lang2;
+			let cult_code = _.get(req.params, 'cult', '');
+			lang_code = lang_code + cult_code;
 		}
 
-		let lc = _findLangInfo(lang);
+		let lc = _findLangInfo(lang_code);
 
 		if (!lc){
 			// IMPORTANT: if culture is not allowed - redirect to root!!!
@@ -132,12 +130,27 @@ let init = function(options) {
 		localeinfo.available = _.cloneDeep(available);
 		localeinfo.usingDefault = is_def_lang;
 
+		localeinfo.routeTo = function(local_path, lang_code) {
+			if (_.isNil(lang_code)) {
+				// TODO: check closure
+				lang_code = localeinfo.code;
+			}
 
-		// TODO : #2 replace with a func
-		localeinfo.href = localeinfo.lang || '';
+			// TODO: it could be precalculated
+			// validate lang_code:
+			let lang = _findLangInfo(lang_code);
+			if (!lang) {
+				lang_code = def_lang;
+			} else {
+				lang_code = lang.code;
+			};
 
-		if (localeinfo.href){
-			localeinfo.href = '/' + localeinfo.href;
+			let p = local_path;
+			if (lang_code !== def_lang) {
+				p = `/${lang_code}${local_path}`;
+			}
+
+			return p;
 		}
 
 		// Set up req and res:
@@ -152,7 +165,7 @@ let init = function(options) {
 	};
 
 	router.esu = function(app) {
-		app.use(url_wildcard, lang_parser, router);
+		app.use('/:lang(\\w{2})?:cult([-_]\\w{2})?/', lang_parser, router);
 	};
 
 	return router;
