@@ -8,3 +8,17 @@
 [![npm downloads](https://img.shields.io/npm/dm/express-mw-lang.svg)](https://www.npmjs.com/package/express-mw-lang)
 
 Language-helper middleware for Express web server.
+
+This middleware helps to determine language, and handle url of incoming requests.
+
+## Options
+
+```javascript
+var langGen = require('express-mw-lang');
+let langmw = langGen({
+	defaultLanguage: 'en',
+	availableLanguages: ['en'],
+	onLangCodeReady: function(lang_code, req, res) {
+	}
+});
+```
