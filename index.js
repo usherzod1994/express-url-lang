@@ -99,22 +99,6 @@ let init = function(options) {
 
 	let router = express.Router();
 
-	/*
-	router.handler = function(req, res, next) {
-
-		// TODO : fix this , learn more about express, and remove this IF.
-		if (res.headersSent){
-			// Here we are only after redirection
-			// from unknown languge ( checkout #unknowncult in this file)
-			return;
-		}
-
-		debug('CURRENT LOCALE:', req.lang.lang, req.lang.elang, ` href=[${req.lang.href}]`, 'other locales:', _.size(req.lang.available));
-
-		return next();
-	};
-	*/
-
 	let lang_parser = function(req, res, next) {
 		let lang = _.get(req.params, 'lang');
 		let is_def_lang;
@@ -149,7 +133,7 @@ let init = function(options) {
 		localeinfo.usingDefault = is_def_lang;
 
 
-		// TODO : replace with a func
+		// TODO : #2 replace with a func
 		localeinfo.href = localeinfo.lang || '';
 
 		if (localeinfo.href){
