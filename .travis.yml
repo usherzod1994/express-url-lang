@@ -1,0 +1,50 @@
+# Language-helper middleware for Express web server.
+
+# Copyright (C) 2016  Volebo.Net <volebo.net@gmail.com>
+# Copyright (C) 2016  Koryukov Maksim <maxkoryukov@gmail.com>
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the MIT License, attached to this software package.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+# You should have received a copy of the MIT License along with this
+# program. If not, see <https://opensource.org/licenses/MIT>.
+
+sudo: false
+
+language: node_js
+
+node_js:
+	- node
+	- 4
+	- 6
+
+# env:
+# 	global:
+# 		- NODE_ENV=dev
+
+# matrix:
+# 	allow_failures:
+# 		- node_js: 4
+
+cache:
+	directories:
+		- node_modules
+
+before_script:
+	- npm install -g npm
+#	- npm install -g gulp
+
+install:
+	- npm install -g codecov
+
+script:
+#  - gulp build
+
+# testing provided by coverage
+#	- npm test
+	- npm run coverage
+	- codecov
