@@ -20,53 +20,88 @@ program. If not, see <https://opensource.org/licenses/MIT>.
 const debug           = require('debug')('volebonet:express:mw:lang');
 const _               = require('lodash');
 
-const moment          = require('moment');
+//const moment          = require('moment');
 //var i18n              = require("i18n")
-
-const knownLangs = {
-	'en': {
-		code: 'en',
-		name: {
-			short: 'en',
-			full: 'English'
-			native: {
-				short: 'en',
-				full: 'English'
-			}
-		},
-	},
-
-	'ru': {
-		code: 'ru',
-		name: {
-			short: 'ru',
-			full: 'Russian',
-			native: {
-				short: 'рус',
-				full: 'Русский'
-			}
-		},
-	},
-	'ru-RU': {
-		code: 'ru-RU',
-		name: {
-			short: 'ru (RU)',
-			full: 'Russian (Russia)',
-			native: {
-				short: 'рус (Рос)',
-				full: 'Русский (Россия)'
-			}
-		},
-	},
-};
 
 let init = function(options) {
 
-	let def_lang = options.defaultLanguage || 'en';
-	let def_cult = options.defaultCulture || null;
-	let url_regex = '/:lang(\\w\\w)?:cult([-_]\\w\\w)?/';
-	let available_lang =
+	const knownLangs = [
+		{
+			code: 'en',
+			name: {
+				short: 'en',
+				full: 'English'
+				native: {
+					short: 'en',
+					full: 'English'
+				}
+			},
+		},
 
+		{
+			code: 'ru',
+			name: {
+				short: 'ru',
+				full: 'Russian',
+				native: {
+					short: 'рус',
+					full: 'Русский'
+				}
+			},
+		},
+		{
+			code: 'ru-RU',
+			name: {
+				short: 'ru (RU)',
+				full: 'Russian (Russia)',
+				native: {
+					short: 'рус (Рос)',
+					full: 'Русский (Россия)'
+				}
+			},
+		},
+	];
+
+	let _findLangInfo = function (langcode) {
+		return _.find(knownLangs, kl => _.lowerCase(kl.code) === _.lowerCase(langcode));
+	}
+
+	let def_lang = options.defaultLanguage;
+	let lc = _findLangInfo(def_lang);
+	if (!lc) {
+		debug(`Unknown value for default language: ${lcode}.`);
+		// WARNING: 'en' should exist in the known languages!!
+		def_lang = 'en';
+	} else {
+		def_lang = lc.code;
+	}
+
+	let available_lang_codes = options.availableLanguages || [];
+	available_lang_codes.push(def_lang);
+
+	let available = [];
+	available_lang_codes = _(available_lang_codes)
+		.uniq()
+		.map(lcode => {
+			let lc = _findLangInfo(lcode);
+
+			if (lc) {
+				available.push(lc);
+				return lc.code;
+			} else {
+				debug(`Unknown language: ${lcode}.`);
+				return null;
+			}
+		})
+		.filter()
+		.values();
+
+	let url_wildcard = '/:lang(\\w\\w(?:[-_]\\w\\w))?/';
+
+	/*
+	=====================
+	Handlers
+	*/
 	mw.handler = function(req, res, next) {
 
 		// TODO : fix this , learn more about express, and remove this IF.
@@ -81,35 +116,27 @@ let init = function(options) {
 	};
 
 	router.beforeMe = function(req, res, next){
-		let lc = router._normalizeCultureAndLang(req.params.lang, req.params.cult);
+		let lc = _findLangInfo(req.params.lang);
 
-		if (! (lc.elang in cultures)){
+		if (! lc){
 			// IMPORTANT: if culture is not allowed - redirect to root!!!
 			// TODO : show message to user!
+			// TODO : redirect to URL without culture settings (means - default culture)
 
 			// #unknowncult
 			return res.redirect('/');
 		}
 
-		lc.info = cultures[lc.elang];
-		// normalize
-		lc.elang = lc.info.code;
+		let localeinfo = _.clone(lc);
+		// TODO : not necessary
+		lc = null;
 
-		lc.available = _(cultures)
-			.values()
-			.map(x => _.extend({}, x, { href : '/' + x.code } ))
-			.value();
+		localeinfo.available = _.deepClone(available);
 
-// ---------------------------------------------------
-// culture validated through DB too
-// ---------------------------------------------------
+		localeinfo.href = localeinfo.lang || '';
 
-		lc.href = lc.lang || '';
-		if (lc.cult) {
-			lc.href = lc.href + '-' + lc.cult;
-		}
-		if (lc.href){
-			lc.href = '/' + lc.href;
+		if (localeinfo.href){
+			localeinfo.href = '/' + localeinfo.href;
 		}
 
 		res.locals.lang = lc;
@@ -141,34 +168,6 @@ let init = function(options) {
 
 		return next();
 	};
-
-	router._normalizeCultureAndLang = function _normalizeCultureAndLang(lang, cult){
-		let tworeg = /[a-z]{2}/i;
-
-		var l = {
-			lang : lang || null,
-			cult : cult || null,
-		};
-
-		if (l.lang) {
-			l.lang = _.toLower(tworeg.exec(l.lang)[0]);
-			l.elang = l.lang;
-		} else {
-			l.elang = this.default_language
-		}
-
-		if (l.cult){
-			l.cult = _.toUpper(tworeg.exec(l.cult)[0]);
-			l.ecult = l.cult;
-		} else {
-			if (!l.lang){
-				l.ecult = this.default_culture;
-			}
-		}
-
-		return l;
-	};
-
 
 	return router;
 }
