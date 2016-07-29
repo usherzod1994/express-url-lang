@@ -39,6 +39,7 @@ before_script:
 
 install:
   - npm install -g codecov
+  - npm install
 
 script:
 # - gulp build
