@@ -4,7 +4,8 @@
   "description": "Language-helper middleware for Express web server.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --recursive -R spec"
+    "test": "mocha",
+	"coverage": "istanbul cover _mocha -- -R spec"
   },
   "repository": {
     "type": "git",
@@ -49,9 +50,14 @@
     "lodash": "^4.13.1"
   },
   "devDependencies": {
-    "eslint-config-volebonet": "^1.1.0",
-    "eslint": "^3.1.1",
     "chai": "^3.5.0",
-    "mocha": "^2.5.3"
+    "eslint": "^3.1.1",
+    "eslint-config-volebonet": "^1.1.0",
+    "istanbul": "^0.4.4",
+    "mocha": "^2.5.3",
+    "supertest": "^2.0.0"
+  },
+  "peerDependencies": {
+    "express": "4.x"
   }
 }

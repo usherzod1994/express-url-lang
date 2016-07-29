@@ -19,9 +19,7 @@ program. If not, see <https://opensource.org/licenses/MIT>.
 
 const debug           = require('debug')('volebonet:express:mw:lang');
 const _               = require('lodash');
-
-//const moment          = require('moment');
-//var i18n              = require("i18n")
+const express         = require('express');
 
 let init = function(options) {
 
@@ -30,7 +28,7 @@ let init = function(options) {
 			code: 'en',
 			name: {
 				short: 'en',
-				full: 'English'
+				full: 'English',
 				native: {
 					short: 'en',
 					full: 'English'
@@ -66,10 +64,10 @@ let init = function(options) {
 		return _.find(knownLangs, kl => _.lowerCase(kl.code) === _.lowerCase(langcode));
 	}
 
-	let def_lang = options.defaultLanguage;
+	let def_lang = _.toString(options.defaultLanguage);
 	let lc = _findLangInfo(def_lang);
 	if (!lc) {
-		debug(`Unknown value for default language: ${lcode}.`);
+		debug(`Unknown value for default language: ${def_lang}.`);
 		// WARNING: 'en' should exist in the known languages!!
 		def_lang = 'en';
 	} else {
@@ -79,34 +77,35 @@ let init = function(options) {
 	let available_lang_codes = options.availableLanguages || [];
 	available_lang_codes.push(def_lang);
 
-	let available = [];
-	available_lang_codes = _(available_lang_codes)
+	let available = _(available_lang_codes)
 		.uniq()
 		.map(lcode => {
 			let lc = _findLangInfo(lcode);
 
 			if (lc) {
-				available.push(lc);
-				return lc.code;
-			} else {
-				debug(`Unknown language: ${lcode}.`);
-				return null;
+				return lc;
 			}
+
+			debug(`Unknown language: ${lcode}.`);
+			return null;
 		})
 		.filter()
-		.values();
+		.value();
 
-	let url_wildcard = '/:lang(\\w\\w(?:[-_]\\w\\w))?/';
+	debug('defaultLanguage code:', def_lang);
+	debug('available', available);
+
+	const url_wildcard = '/:lang(\\w{2})?:cult([-_]\\w{2})?/';
+
+	let router = express.Router();
 
 	/*
-	=====================
-	Handlers
-	*/
-	mw.handler = function(req, res, next) {
+	router.handler = function(req, res, next) {
 
 		// TODO : fix this , learn more about express, and remove this IF.
 		if (res.headersSent){
-			// We are after redirect from unknown languge ( checkout #unknowncult in this file)
+			// Here we are only after redirection
+			// from unknown languge ( checkout #unknowncult in this file)
 			return;
 		}
 
@@ -114,11 +113,24 @@ let init = function(options) {
 
 		return next();
 	};
+	*/
 
-	router.beforeMe = function(req, res, next){
-		let lc = _findLangInfo(req.params.lang);
+	let lang_parser = function(req, res, next) {
+		let lang = _.get(req.params, 'lang');
+		let is_def_lang;
 
-		if (! lc){
+		if (_.isNil(lang)) {
+			is_def_lang = true;
+			lang = def_lang;
+		} else {
+			is_def_lang = false;
+			let lang2 = _.get(req.params, 'cult', '');
+			lang = lang + lang2;
+		}
+
+		let lc = _findLangInfo(lang);
+
+		if (!lc){
 			// IMPORTANT: if culture is not allowed - redirect to root!!!
 			// TODO : show message to user!
 			// TODO : redirect to URL without culture settings (means - default culture)
@@ -128,45 +140,35 @@ let init = function(options) {
 		}
 
 		let localeinfo = _.clone(lc);
+
 		// TODO : not necessary
 		lc = null;
 
-		localeinfo.available = _.deepClone(available);
+		localeinfo.defaultLanguage = def_lang;
+		localeinfo.available = _.cloneDeep(available);
+		localeinfo.usingDefault = is_def_lang;
 
+
+		// TODO : replace with a func
 		localeinfo.href = localeinfo.lang || '';
 
 		if (localeinfo.href){
 			localeinfo.href = '/' + localeinfo.href;
 		}
 
-		res.locals.lang = lc;
-		req.lang = lc;
+		// Set up req and res:
+		res.locals.lang = localeinfo;
+		req.lang = localeinfo;
 
-		//i18n.setLocale(lc.elang + '-' + lc.ecult);
-		i18n.setLocale(lc.elang);
-
-		i18n.setLocale(req, lc.elang);
-		i18n.setLocale(res, lc.elang);
-
-		let oldrender = res.render;
-		res.render = function render(vn, opt){
-			if (opt){
-				if (_.isObject(opt)){
-					_.set(opt, 'helpers.__', res.locals.__);
-				} else {
-					logger.warn('unable to setup translation helper: __ for an request:', req.originalUrl);
-				}
-			} else {
-				opt = { helpers: { __ : res.locals.__ } };
-			}
-
-			arguments[1] = opt;
-			return oldrender.apply(this, arguments);
+		if (_.isFunction(options.onLangCodeReady)) {
+			options.onLangCodeReady(localeinfo.code, req, res);
 		}
 
-		moment.locale(lc.elang);
-
 		return next();
+	};
+
+	router.esu = function(app) {
+		app.use(url_wildcard, lang_parser, router);
 	};
 
 	return router;
