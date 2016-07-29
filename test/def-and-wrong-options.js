@@ -26,7 +26,7 @@ const debug    = require('debug')('volebonet:express:mw:lang:test');
 /* ROOT of the package */
 var rt = process.cwd();
 
-describe('run express', function(){
+describe('Test config behaviour', function(){
 
 	let app = null;
 	let langmw = null;

@@ -26,7 +26,7 @@ const express  = require('express');
 /* ROOT of the package */
 var rt = process.cwd();
 
-describe('run express', function(){
+describe('Language detection', function(){
 
 	let app = express();
 	let langmw = {};
