@@ -20,6 +20,7 @@ program. If not, see <https://opensource.org/licenses/MIT>.
 const request  = require('supertest');
 const path     = require('path');
 const express  = require('express');
+const _        = require('lodash');
 const debug    = require('debug')('volebonet:express:mw:lang:test');
 
 /* ROOT of the package */
@@ -64,7 +65,7 @@ describe('run express', function(){
 			app = express();
 			langmw = require(path.join(rt, ''))({
 				defaultLanguage: 'ru-RU',
-				availableLanguages: ['xx', 'ru'],
+				availableLanguages: ['xx', 'en'],
 			});
 			langmw.esu(app);
 
@@ -73,8 +74,13 @@ describe('run express', function(){
 				let av = res.locals.lang.available;
 				debug('available langs for request:', av)
 
-				_.
-				res.status(200).send(res.locals.lang.available);
+				let joined_codes = _(av)
+					.map('code')
+					.uniq()
+					.orderBy()
+					.reduce((s,v) => s += v + ',', '');
+
+				res.status(200).send(joined_codes);
 				next();
 			});
 		});
@@ -86,7 +92,7 @@ describe('run express', function(){
 		it('should omit unknown', function(done) {
 			request(app)
 				.get('/any-path')
-				.expect(200, 'en', done);
+				.expect(200, 'en,ru-RU,', done);
 		});
 	});
 });
