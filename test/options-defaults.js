@@ -95,4 +95,37 @@ describe('Test config behaviour', function(){
 				.expect(200, 'en,ru-RU,', done);
 		});
 	});
+
+	describe('on NO availableLanguages in config', function () {
+		// set up handler
+		before(function() {
+			app = express();
+			langmw = require(path.join(rt, ''))({
+				defaultLanguage: 'ru-RU',
+			});
+			langmw.esu(app);
+
+			langmw.get('/no-available', (req, res, next) => {
+
+				let av = res.locals.lang.available;
+				debug('available langs for request:', av)
+
+				let joined_codes = _(av)
+					.map('code')
+					.uniq()
+					.orderBy()
+					.reduce((s,v) => s += v + ',', '');
+
+				res.status(200).send(joined_codes);
+				next();
+			});
+		});
+
+
+		it('should return default lang', function(done) {
+			request(app)
+				.get('/no-available')
+				.expect(200, 'ru-RU,', done);
+		});
+	});
 });

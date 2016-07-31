@@ -35,12 +35,12 @@ describe('Language detection', function(){
 	before(function() {
 		langmw = require(path.join(rt, ''))({
 			defaultLanguage: deflang,
-			availableLanguages: ['en', 'ru'],
+			availableLanguages: ['en', 'ru', 'zh-CHS'],
 		});
 		langmw.esu(app);
 	});
 
-	describe('should return explicit lang code', function () {
+	describe('should return explicit lang code (from available list)', function () {
 		// set up handler
 		before(function() {
 			langmw.get('/code', (req, res, next) => {
@@ -50,11 +50,12 @@ describe('Language detection', function(){
 		});
 
 		[
+			// to check default twice
 			{ path: '/code', resp: 'en' },
+
 			{ path: '/ru/code', resp: 'ru' },
 			{ path: '/en/code', resp: 'en' },
-			{ path: '/ru-ru/code', resp: 'ru-RU' },
-			{ path: '/ru-RU/code', resp: 'ru-RU' },
+			{ path: '/zh-chs/code', resp: 'zh-CHS' },
 		].forEach( data => {
 
 			it(data.path, function(done) {
@@ -64,7 +65,6 @@ describe('Language detection', function(){
 			});
 		});
 	});
-
 
 	describe('should return default lang code', function() {
 		// set up handler
@@ -79,8 +79,7 @@ describe('Language detection', function(){
 			{ path: '/default' },
 			{ path: '/ru/default' },
 			{ path: '/en/default' },
-			{ path: '/ru-ru/default' },
-			{ path: '/ru-RU/default' },
+			{ path: '/zh-chs/default' },
 		].forEach( data => {
 
 			it(data.path, function(done) {
@@ -91,7 +90,7 @@ describe('Language detection', function(){
 		});
 	});
 
-	describe('should redirect to root', function() {
+	describe('should redirect for non-existing lang', function() {
 
 		let path = '/xx-YY/not-exists-culture';
 
@@ -106,4 +105,28 @@ describe('Language detection', function(){
 				.expect(302, done);
 		});
 	});
+
+	describe('should REDIRECT for existing but unavailable lang', function () {
+		// set up handler
+		before(function() {
+			langmw.get('/code-unavailable', (req, res, next) => {
+				res.status(200).send(res.locals.lang.code);
+				next();
+			});
+		});
+
+		[
+			{ path: '/ru-ru/code-unavailable' },
+			{ path: '/ru-RU/code-unavailable' },
+			{ path: '/zh/code-unavailable' },
+		].forEach( data => {
+
+			it(data.path, function(done) {
+				request(app)
+					.get(data.path)
+					.expect(302, done);
+			});
+		});
+	});
+
 });
