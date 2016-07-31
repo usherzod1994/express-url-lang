@@ -33,7 +33,7 @@ describe('Language detection', function(){
 	const deflang = 'en';
 
 	before(function() {
-		langmw = require(path.join(rt, ''))({
+		langmw = require(rt)({
 			defaultLanguage: deflang,
 			availableLanguages: ['en', 'ru', 'zh-CHS'],
 		});
