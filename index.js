@@ -23,6 +23,7 @@ const express         = require('express');
 
 let init = function(options) {
 
+	// with ISO 639-x codes
 	const knownLangs = [
 		{
 			code: 'en',
@@ -58,14 +59,37 @@ let init = function(options) {
 				}
 			},
 		},
+
+		{
+			code: 'zh',
+			name: {
+				short: 'zh',
+				full: 'Chinese',
+				native: {
+					short: '吉恩斯',
+					full: '吉恩斯'
+				}
+			},
+		},
+		{
+			code: 'zh-CHS',
+			name: {
+				short: 'zh-CHS',
+				full: 'Chinese (Simplified)',
+				native: {
+					short: '那么-ES',
+					full: '吉恩斯（简体）'
+				}
+			},
+		},
 	];
 
-	let _findLangInfo = function (langcode) {
-		return _.find(knownLangs, kl => _.lowerCase(kl.code) === _.lowerCase(langcode));
+	let _findLangInfo = function (langcode, arr) {
+		return _.find(arr, kl => _.lowerCase(kl.code) === _.lowerCase(langcode));
 	}
 
 	let def_lang = _.toString(options.defaultLanguage);
-	let lc = _findLangInfo(def_lang);
+	let lc = _findLangInfo(def_lang, knownLangs);
 	if (!lc) {
 		debug(`Unknown value for default language: ${def_lang}.`);
 		// WARNING: 'en' should exist in the known languages!!
@@ -80,7 +104,7 @@ let init = function(options) {
 	let available = _(available_lang_codes)
 		.uniq()
 		.map(lcode => {
-			let lc = _findLangInfo(lcode);
+			let lc = _findLangInfo(lcode, knownLangs);
 
 			if (lc) {
 				return lc;
@@ -110,7 +134,7 @@ let init = function(options) {
 			lang_code = lang_code + cult_code;
 		}
 
-		let lc = _findLangInfo(lang_code);
+		let lc = _findLangInfo(lang_code, available);
 
 		if (!lc){
 			// IMPORTANT: if culture is not allowed - redirect to root!!!
@@ -118,13 +142,11 @@ let init = function(options) {
 			// TODO : redirect to URL without culture settings (means - default culture)
 
 			// #unknowncult
-			return res.redirect('/');
+			res.redirect('/');
+			return next();
 		}
 
 		let localeinfo = _.clone(lc);
-
-		// TODO : not necessary
-		lc = null;
 
 		localeinfo.defaultLanguage = def_lang;
 		localeinfo.available = _.cloneDeep(available);
@@ -138,7 +160,7 @@ let init = function(options) {
 
 			// TODO: it could be precalculated
 			// validate lang_code:
-			let lang = _findLangInfo(lang_code);
+			let lang = _findLangInfo(lang_code, available);
 			if (!lang) {
 				lang_code = def_lang;
 			} else {
@@ -165,7 +187,7 @@ let init = function(options) {
 	};
 
 	router.esu = function(app) {
-		app.use('/:lang(\\w{2})?:cult([-_]\\w{2})?/', lang_parser, router);
+		app.use('/:lang(\\w{2})?:cult([-_]\\w{2,3})?/', lang_parser, router);
 	};
 
 	return router;
