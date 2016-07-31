@@ -165,7 +165,7 @@ let init = function(options) {
 				lang_code = def_lang;
 			} else {
 				lang_code = lang.code;
-			};
+			}
 
 			let p = local_path;
 			if (lang_code !== def_lang) {

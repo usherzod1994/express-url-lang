@@ -42,7 +42,7 @@ describe('Res/Req `lang` functions', function(){
 
 	describe('on valid request `res` and `req`', function() {
 
-		describe('property: lang', function(done) {
+		describe('property: lang', function() {
 
 			before(function() {
 				langmw.get('/valid-path', (req, res, next) => {
@@ -81,8 +81,7 @@ describe('Res/Req `lang` functions', function(){
 					});
 				});
 
-				let testcases =
-				[
+				let testcases = [
 					{ path: '/routeTo/',        urlpath: '/article/12',   exp: '/article/12' },
 					{ path: '/zh/routeTo/',     urlpath: '/article/12',   exp: '/article/12' },
 					{ path: '/zh-chs/routeTo/', urlpath: '/article/12',   exp: '/zh-CHS/article/12' },
@@ -115,7 +114,7 @@ describe('Res/Req `lang` functions', function(){
 				});
 
 				let testcases =
-				[
+					[
 					{ note: '', path: '/routeToLang/',        urlpath: '/home/post/about-me',   lang:'zh',  exp: '/home/post/about-me' },
 					{ note: '', path: '/zh/routeToLang/',     urlpath: '/home/post/about-me',   lang:'zh',  exp: '/home/post/about-me' },
 					{ note: '', path: '/zh-chs/routeToLang/', urlpath: '/home/post/about-me',   lang:'zh-CHS',  exp: '/zh-CHS/home/post/about-me' },
@@ -133,7 +132,7 @@ describe('Res/Req `lang` functions', function(){
 					{ note: 'EMPTY lang', path: '/ru/routeToLang/',     urlpath: '/home/post/about-me',   lang:'',  exp: '/home/post/about-me' },
 					// TODO: #1 move to docs: lang 'ru-RU' - unavailable cause to default lang!!
 					{ note: 'UNAVAILABLE lang', path: '/ru/routeToLang/',     urlpath: '/home/post/about-me',   lang:'ru-ru',  exp: '/home/post/about-me' },
-				];
+					];
 
 				testcases.forEach( data => {
 
