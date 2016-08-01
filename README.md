@@ -11,6 +11,8 @@ Language-helper middleware for Express web server.
 
 This middleware helps to determine language, and handle url of incoming requests.
 
+**PULL REQUEST WITH DOCUMENTATION REQUIRED: [ISSUE](https://github.com/VoleboNet/express-mw-lang/issues/1)**
+
 ## Options
 
 ```javascript
