@@ -19,7 +19,7 @@ program. If not, see <https://opensource.org/licenses/MIT>.
 
 const request  = require('supertest');
 //const assert   = require('chai').assert;
-const path     = require('path');
+//const path     = require('path');
 const express  = require('express');
 //const debug    = require('debug')('volebonet:express:mw:lang:test');
 
