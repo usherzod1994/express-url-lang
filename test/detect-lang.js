@@ -90,41 +90,90 @@ describe('Language detection', function(){
 		});
 	});
 
-	describe('should redirect for non-existing lang', function() {
+	describe('should RUN NEXT MW on unknown language/culture', function() {
 
-		let path = '/xx-YY/not-exists-culture';
+		const RESP_NO_LANG = 'looks like a lang';
+		const RESP_VK = 'vk response';
 
-		it(path, function(done) {
-			langmw.get(path, (req, res, next) => {
-				res.status(200).send(res.locals.lang.defaultLanguage);
+		const PATH_NO_LANG = '/xx-YY/looks-like-lang-but-no';
+		const PATH_VK = '/vk/auth';
+		const PATH_VK_NO = '/vk/no-such-page';
+
+		before(function() {
+			// appending next middlewares
+			langmw.get(PATH_NO_LANG, (req, res, next) => {
+				res.status(200).send(RESP_NO_LANG);
 				next();
 			});
 
-			request(app)
-				.get(path)
-				.expect(302, done);
+			langmw.post(PATH_VK, (req, res, next) => {
+				res.status(200).send(RESP_VK);
+				next();
+			});
+
 		});
+
+		it(PATH_NO_LANG, function(done) {
+			request(app)
+				.get(PATH_NO_LANG)
+				.expect(200, RESP_NO_LANG, done);
+		});
+
+		[
+			PATH_VK,
+			'/ru' + PATH_VK,
+			'/en' + PATH_VK
+		].forEach(function(urlpath){
+			it(urlpath, function(done) {
+				request(app)
+					.post(urlpath)
+					.expect(200, RESP_VK, done);
+			});
+		});
+
+		it(PATH_VK_NO, function(done) {
+			request(app)
+				.get(PATH_VK_NO)
+				.expect(404, done);
+		});
+
+
 	});
 
-	describe('should REDIRECT for existing but unavailable lang', function () {
+	// behaviour changed, see https://github.com/VoleboNet/express-mw-lang/issues/8
+	describe('should RUN NEXT MW for existing but unavailable lang', function () {
 		// set up handler
 		before(function() {
-			langmw.get('/code-unavailable', (req, res, next) => {
+			langmw.get('/code-def-unavail-lang', (req, res, next) => {
 				res.status(200).send(res.locals.lang.code);
 				next();
 			});
 		});
 
 		[
-			{ path: '/ru-ru/code-unavailable' },
-			{ path: '/ru-RU/code-unavailable' },
-			{ path: '/zh/code-unavailable' },
+			{ path: '/ru-ru/code-def-unavail-lang' },
+			{ path: '/ru-RU/code-def-unavail-lang' },
+			{ path: '/zh/code-def-unavail-lang' },
 		].forEach( data => {
 
 			it(data.path, function(done) {
 				request(app)
 					.get(data.path)
-					.expect(302, done);
+					.expect(200, deflang, done);
+			});
+		});
+
+
+		[
+			{ path: '/ru-ru/code-def-unavail-lang-404' },
+			{ path: '/ru-RU/code-def-unavail-lang-404' },
+			{ path: '/zh/code-def-unavail-lang-404' },
+		].forEach( data => {
+
+			it(data.path, function(done) {
+				request(app)
+					.get(data.path)
+					.expect(404, done);
 			});
 		});
 	});
