@@ -167,6 +167,13 @@ _bool_ indicates, that request is handled using default language (probably, ther
 
 _function(local_path, lang_code)_ , this function could help you to build paths to other pages of the site (taking the current language into account).
 
+Notes about argument `lang_code`:
+
+1. it is optional
+2. UNKNOWN/UNAVAILABLE lang_code - cause to use the default lang
+3. NULL lang_code - cause to use CURRENT lang (determined by MW from URL)
+4. EMPTY ('') lang_code - cause to use default lang!!
+
 ## Contributing
 
 You could take part in the development process, just follow this [guideline][contributing].

@@ -113,8 +113,7 @@ describe('Res/Req `lang` functions', function(){
 					});
 				});
 
-				let testcases =
-					[
+				let testcases = [
 					{ note: '', path: '/routeToLang/',        urlpath: '/home/post/about-me',   lang:'zh',  exp: '/home/post/about-me' },
 					{ note: '', path: '/zh/routeToLang/',     urlpath: '/home/post/about-me',   lang:'zh',  exp: '/home/post/about-me' },
 					{ note: '', path: '/zh-chs/routeToLang/', urlpath: '/home/post/about-me',   lang:'zh-CHS',  exp: '/zh-CHS/home/post/about-me' },
@@ -124,15 +123,12 @@ describe('Res/Req `lang` functions', function(){
 					{ note: '', path: '/ru/routeToLang/',     urlpath: '/home/post/about-me',   lang:'ru',  exp: '/ru/home/post/about-me' },
 					{ note: '', path: '/ru/routeToLang/',     urlpath: '/home/post/about-me',   lang:'en',  exp: '/en/home/post/about-me' },
 
-					// TODO: #1 move to docs: UNKNOWN lang - cause to use default lang!!
+					// Tests for the spec in README file: `routeTo`
 					{ note: 'UNKNOWN lang', path: '/ru/routeToLang/',     urlpath: '/home/post/about-me',   lang:'xx',  exp: '/home/post/about-me' },
-					// TODO: #1 move to docs: lang null - cause to use CURRENT lang!!
 					{ note: 'NULL lang', path: '/ru/routeToLang/',     urlpath: '/home/post/about-me',   lang:null,  exp: '/ru/home/post/about-me' },
-					// TODO: #1 move to docs: lang '' - cause to use default lang!!
 					{ note: 'EMPTY lang', path: '/ru/routeToLang/',     urlpath: '/home/post/about-me',   lang:'',  exp: '/home/post/about-me' },
-					// TODO: #1 move to docs: lang 'ru-RU' - unavailable cause to default lang!!
 					{ note: 'UNAVAILABLE lang', path: '/ru/routeToLang/',     urlpath: '/home/post/about-me',   lang:'ru-ru',  exp: '/home/post/about-me' },
-					];
+				];
 
 				testcases.forEach( data => {
 
