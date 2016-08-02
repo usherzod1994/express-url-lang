@@ -144,10 +144,12 @@ let options = {
 
 ## `req` and `res` extensions
 
-This middleware extends the `req` and `res` objects for next middlewares. The extended property is:
+This middleware extends the `req` and `res` objects with a `lang` property, so extensions are:
 
 1. `req.lang`
 2. `res.locals.lang`
+
+Further - description of the `lang` object.
 
 #### `defaultLanguage`
 
@@ -163,7 +165,7 @@ _bool_ indicates, that request is handled using default language (probably, ther
 
 #### `routeTo`
 
-_function(local_path, lang_code)_ , this function should help you to build routes to other pages of the site (it takes the current language into account).
+_function(local_path, lang_code)_ , this function could help you to build paths to other pages of the site (taking the current language into account).
 
 ## Contributing
 
