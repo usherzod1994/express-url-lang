@@ -7,7 +7,7 @@
 [![npm version](https://img.shields.io/npm/v/express-mw-lang.svg)](https://www.npmjs.com/package/express-mw-lang)
 [![npm downloads](https://img.shields.io/npm/dm/express-mw-lang.svg)](https://www.npmjs.com/package/express-mw-lang)
 
-Language-helper middleware for Express web server.
+Localization helper for Express web server.
 
 Cuts off the **language** part from the path, and allow to use simple routes!
 
@@ -19,9 +19,17 @@ To determine the language `express-mw-lang` uses only **URL** of the request. Ex
 schema://host/< LANG >/path?params
 ```
 
-for example: `https://example.net/fr/article/1`. As you could see - `lang` is the first part of the requested path, and could be ommited (in this case the **default** language will be used).
+Sample URL, handled in French:
 
-Actually, `express-mw-lang` - is an [express-router](http://expressjs.com/en/4x/api.html#router), and the best practice - appending **your** router/routes (`use`/`route`/`get`/`post`/...) to the `express-mw-lang` (not to the Express-application itself), see the [Example section](#examples) for more details.
+```
+https://example.net/fr/article/1
+```
+
+As you could see - `lang` is a first part of the path, and could be ommited, in this case the **default** language will be used.
+
+Actually, `express-mw-lang` **acts and is** an [express-router](http://expressjs.com/en/4x/api.html#router). The best practice is appending **your** router/routes (`use`/`route`/`get`/`post`/...) to the `express-mw-lang`, instead of habitual way with the Express-application itself.
+
+See the [Example section](#examples) for more details.
 
 [Contributions are welcome][contributing]!
 
@@ -37,7 +45,7 @@ Configure and use in the `app.js`:
 
 ```javascript
 // ...
-var langGen         = require('express-mw-lang');
+var langGen = require('express-mw-lang');
 var app = express();
 
 // ...
