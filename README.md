@@ -9,11 +9,11 @@
 
 Language-helper middleware for Express web server.
 
-This middleware helps to determine language, and handles urls of incoming requests for next middlewares in the chain. This MW **doesn't use `Accept-Language`** (but it is a good idea, to use this value on first contact to predict user's language).
+This middleware helps to determine the language, and handles urls of incoming requests for next middlewares in the chain. This MW **doesn't use `Accept-Language`** (but it is a good idea, to use the value of this HTTP-Header on first contact with the user, to predict his language).
 
-Middleware uses just **URL** of the request, typical URL: `https://example.net/fr/article/1`. As you could see - `lang` is the first part of the requested path, and could be ommited (in this case the **default** language will be used).
+To determine the language `express-mw-lang` uses only **URL** of the request. Expected format of the URL: **schema://host/< LANG >/path?params**, for example: `https://example.net/fr/article/1`. As you could see - `lang` is the first part of the requested path, and could be ommited (in this case the **default** language will be used).
 
-Actually, MW - is an [express-router](http://expressjs.com/en/4x/api.html#router), and the best practice - append your router to this middleware (not to the express itself), see the [Example section](#examples) for more details.
+Actually, `express-mw-lang` - is an [express-router](http://expressjs.com/en/4x/api.html#router), and the best practice - appending **your** router/routes (`use`/`route`/`get`/`post`/...) to the `express-mw-lang` (not to the Express-application itself), see the [Example section](#examples) for more details.
 
 [Contributions are welcome][contributing]!
 
