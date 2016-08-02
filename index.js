@@ -154,7 +154,6 @@ let init = function(options) {
 
 		localeinfo.routeTo = function(local_path, lang_code) {
 			if (_.isNil(lang_code)) {
-				// TODO: check closure
 				lang_code = localeinfo.code;
 			}
 
