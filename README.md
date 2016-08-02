@@ -15,6 +15,8 @@ Middleware uses just **URL** of the request, typical URL: `https://example.net/f
 
 Actually, MW - is an [express-router](http://expressjs.com/en/4x/api.html#router), and the best practice - append your router to this middleware (not to the express itself), see the [Example section](#examples) for more details.
 
+[Contributions are welcome][contributing]!
+
 ## Usage
 
 Install:
@@ -165,8 +167,10 @@ _function(local_path, lang_code)_ , this function should help you to build route
 
 ## Contributing
 
-You could take part in the development process, just follow this [guideline](CONTRIBUTING.md).
+You could take part in the development process, just follow this [guideline][contributing].
 
 ## License
 
 Please, read the [`LICENSE`](LICENSE) file in the root of the repository (or downloaded package).
+
+[contributing]: CONTRIBUTING.md
