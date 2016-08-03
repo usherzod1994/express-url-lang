@@ -113,7 +113,7 @@ describe('Language detection', function(){
 
 		});
 
-		it(PATH_NO_LANG, function(done) {
+		it(PATH_NO_LANG + ' and should not eat the prefix', function(done) {
 			request(app)
 				.get(PATH_NO_LANG)
 				.expect(200, RESP_NO_LANG, done);
@@ -124,30 +124,44 @@ describe('Language detection', function(){
 			'/ru' + PATH_VK,
 			'/en' + PATH_VK
 		].forEach(function(urlpath){
-			it(urlpath, function(done) {
+			it(urlpath + ' and should not eat the prefix', function(done) {
 				request(app)
 					.post(urlpath)
 					.expect(200, RESP_VK, done);
 			});
 		});
 
-		it(PATH_VK_NO, function(done) {
-			request(app)
-				.get(PATH_VK_NO)
-				.expect(404, done);
+		[
+			PATH_VK_NO,
+			'/ru' + PATH_VK_NO,
+			'/en' + PATH_VK_NO
+		].forEach(function(urlpath){
+			it(urlpath, function(done) {
+				request(app)
+					.get(urlpath)
+					.expect(404, done);
+			});
 		});
-
 
 	});
 
 	// behaviour changed, see https://github.com/VoleboNet/express-mw-lang/issues/8
-	describe('should RUN NEXT MW for existing but unavailable lang', function () {
+	describe('should RUN NEXT MW for unavailable lang NOT TRIMMING the url', function () {
 		// set up handler
 		before(function() {
-			langmw.get('/code-def-unavail-lang', (req, res, next) => {
+
+			// the MW will not eat the LANG PREFIX (because it is not
+			// available), so we should add handler for the full path:
+			langmw.get('/ru-ru/code-def-unavail-lang', (req, res, next) => {
 				res.status(200).send(res.locals.lang.code);
 				next();
 			});
+
+			langmw.get('/zh/code-def-unavail-lang', (req, res, next) => {
+				res.status(200).send(res.locals.lang.code);
+				next();
+			});
+
 		});
 
 		[
@@ -165,9 +179,9 @@ describe('Language detection', function(){
 
 
 		[
-			{ path: '/ru-ru/code-def-unavail-lang-404' },
-			{ path: '/ru-RU/code-def-unavail-lang-404' },
-			{ path: '/zh/code-def-unavail-lang-404' },
+			{ path: '/ru-ru/code-unavail-lang-404' },
+			{ path: '/ru-RU/code-unavail-lang-404' },
+			{ path: '/zh/code-unavail-lang-404' },
 		].forEach( data => {
 
 			it(data.path, function(done) {

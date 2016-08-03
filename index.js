@@ -89,13 +89,18 @@ let init = function(options) {
 	}
 
 	let def_lang = _.toString(options.defaultLanguage);
-	let lc = _findLangInfo(def_lang, knownLangs);
-	if (!lc) {
+	let def_lang_data = _findLangInfo(def_lang, knownLangs);
+	if (!def_lang_data) {
 		debug(`Unknown value for default language: ${def_lang}.`);
 		// WARNING: 'en' should exist in the known languages!!
 		def_lang = 'en';
+		def_lang_data = _findLangInfo(def_lang, knownLangs);
 	} else {
-		def_lang = lc.code;
+		def_lang = def_lang_data.code;
+	}
+
+	if (!def_lang_data) {
+		throw new Error('EN culture info is not found');
 	}
 
 	let available_lang_codes = options.availableLanguages || [];
@@ -137,13 +142,13 @@ let init = function(options) {
 		let lc = _findLangInfo(lang_code, available);
 
 		if (!lc){
-			// IMPORTANT: if culture is not allowed - redirect to root!!!
 			// TODO : show message to user!
-			// TODO : redirect to URL without culture settings (means - default culture)
 
-			// #unknowncult
-			res.redirect('/');
-			return next();
+			// TODO: is this solution slow?
+			// url-prefix should not be eaten!
+			req.url = req.baseUrl + req.path;
+
+			lc = def_lang_data;
 		}
 
 		let localeinfo = _.clone(lc);
