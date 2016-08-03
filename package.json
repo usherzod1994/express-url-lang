@@ -48,7 +48,8 @@
   "homepage": "https://github.com/VoleboNet/express-mw-lang#readme",
   "dependencies": {
     "debug": "~2.2.0",
-    "lodash": "^4.13.1"
+    "eslint": "^3.2.2",
+    "lodash": "^4.14.1"
   },
   "devDependencies": {
     "chai": "^3.5.0",
