@@ -121,7 +121,7 @@ let init = function(options) {
 	//debug('defaultLanguage', def_lang);
 	//debug('available', available);
 
-	let router = express.Router();
+	let router = new express.Router();
 
 	let mw_lang_pre_handler = function mw_lang_pre_handler(req, res, next) {
 		let lang_code = _.get(req.params, 'lang');
