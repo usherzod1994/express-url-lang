@@ -1,6 +1,6 @@
 {
   "name": "express-mw-lang",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "Language-helper middleware for Express web server.",
   "main": "index.js",
   "scripts": {
@@ -48,14 +48,16 @@
   "homepage": "https://github.com/VoleboNet/express-mw-lang#readme",
   "dependencies": {
     "debug": "~2.2.0",
-    "lodash": "^4.13.1"
+    "eslint": "^3.2.2",
+    "eslint-config-volebonet": "^1.2.0",
+    "lodash": "^4.14.2"
   },
   "devDependencies": {
     "chai": "^3.5.0",
     "eslint": "^3.1.1",
     "eslint-config-volebonet": "^1.1.0",
     "istanbul": "^0.4.4",
-    "mocha": "^2.5.3",
+    "mocha": "^3.0.2",
     "supertest": "^2.0.0"
   },
   "peerDependencies": {

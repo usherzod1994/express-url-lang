@@ -26,6 +26,7 @@ let init = function(options) {
 	// with ISO 639-x codes
 	const knownLangs = [
 		{
+			// NOTE: do not remove the EN locale, it is library default!
 			code: 'en',
 			name: {
 				short: 'en',
@@ -99,10 +100,6 @@ let init = function(options) {
 		def_lang = def_lang_data.code;
 	}
 
-	if (!def_lang_data) {
-		throw new Error('EN culture info is not found');
-	}
-
 	let available_lang_codes = options.availableLanguages || [];
 	available_lang_codes.push(def_lang);
 
@@ -124,9 +121,9 @@ let init = function(options) {
 	//debug('defaultLanguage', def_lang);
 	//debug('available', available);
 
-	let router = express.Router();
+	let router = new express.Router();
 
-	let lang_parser = function(req, res, next) {
+	let mw_lang_pre_handler = function mw_lang_pre_handler(req, res, next) {
 		let lang_code = _.get(req.params, 'lang');
 		let is_def_lang;
 
@@ -191,7 +188,7 @@ let init = function(options) {
 	};
 
 	router.esu = function(app) {
-		app.use('/:lang(\\w{2})?:cult([-_]\\w{2,3})?/', lang_parser, router);
+		app.use('/:lang(\\w{2})?:cult([-_]\\w{2,3})?/', mw_lang_pre_handler, router);
 	};
 
 	return router;
