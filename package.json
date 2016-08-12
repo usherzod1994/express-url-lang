@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/VoleboNet/express-mw-lang.git"
+    "url": "git+https://github.com/volebo/express-mw-lang.git"
   },
   "keywords": [
     "lang",
@@ -22,10 +22,11 @@
     "express",
     "express-middleware",
     "middleware",
-    "volebonet"
+    "volebonet",
+    "volebo"
   ],
   "author": {
-    "name": "VoleboNet",
+    "name": "Volebo",
     "url": "http://volebo.net"
   },
   "contributors": [
@@ -43,19 +44,18 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/VoleboNet/express-mw-lang/issues"
+    "url": "https://github.com/volebo/express-mw-lang/issues"
   },
-  "homepage": "https://github.com/VoleboNet/express-mw-lang#readme",
+  "homepage": "https://github.com/volebo/express-mw-lang#readme",
   "dependencies": {
     "debug": "~2.2.0",
-    "eslint": "^3.2.2",
-    "eslint-config-volebonet": "^1.2.0",
-    "lodash": "^4.14.2"
+    "eslint": "^3.3.0",
+    "lodash": "^4.15.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
     "eslint": "^3.1.1",
-    "eslint-config-volebonet": "^1.1.0",
+    "eslint-config-volebo": "^1.x",
     "istanbul": "^0.4.4",
     "mocha": "^3.0.2",
     "supertest": "^2.0.0"
