@@ -27,16 +27,13 @@
   ],
   "author": {
     "name": "Volebo",
-    "url": "http://volebo.net"
+    "url": "http://dev.volebo.net"
   },
   "contributors": [
     {
       "name": "Koryukov Maksim",
       "email": "maxkoryukov@gmail.com"
     }
-  ],
-  "os": [
-    "linux"
   ],
   "engines": {
     "node": ">=4.0.0",
