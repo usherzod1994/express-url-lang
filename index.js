@@ -17,7 +17,7 @@ program. If not, see <https://opensource.org/licenses/MIT>.
 
 "use strict";
 
-const debug           = require('debug')('volebonet:express:mw:lang');
+const debug           = require('debug')('volebo:express:mw:lang');
 const _               = require('lodash');
 const express         = require('express');
 

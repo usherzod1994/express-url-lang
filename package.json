@@ -27,12 +27,18 @@
   ],
   "author": {
     "name": "Volebo",
-    "url": "http://dev.volebo.net"
+    "url": "http://dev.volebo.net",
+    "email": "volebo.net@gmail.com"
   },
   "contributors": [
     {
       "name": "Koryukov Maksim",
       "email": "maxkoryukov@gmail.com"
+    },
+    {
+      "name": "Volebo",
+      "url": "http://dev.volebo.net",
+      "email": "volebo.net@gmail.com"
     }
   ],
   "engines": {
