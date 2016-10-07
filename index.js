@@ -148,41 +148,54 @@ let init = function(options) {
 			lc = def_lang_data;
 		}
 
-		let localeinfo = _.clone(lc);
+		let localeinfo = {};
 
 		localeinfo.defaultLanguage = def_lang;
 		localeinfo.available = _.cloneDeep(available);
 		localeinfo.usingDefault = is_def_lang;
 
-		localeinfo.routeTo = function(local_path, lang_code) {
-			if (_.isNil(lang_code)) {
-				lang_code = localeinfo.code;
+		localeinfo.routeTo = function _routeTo(local_path, explicit_lang_code) {
+			if (_.isNil(explicit_lang_code)) {
+				explicit_lang_code = localeinfo.code;
 			}
 
 			// TODO: it could be precalculated
-			// validate lang_code:
-			let lang = _findLangInfo(lang_code, available);
+			// validate explicit_lang_code:
+			let lang = _findLangInfo(explicit_lang_code, available);
 			if (!lang) {
-				lang_code = def_lang;
+				explicit_lang_code = def_lang;
 			} else {
-				lang_code = lang.code;
+				explicit_lang_code = lang.code;
 			}
 
 			let p = local_path;
-			if (lang_code !== def_lang) {
-				p = `/${lang_code}${local_path}`;
+			if (explicit_lang_code !== def_lang) {
+				p = `/${explicit_lang_code}${local_path}`;
 			}
 
 			return p;
+		}
+
+		localeinfo.setLocale = function _setLocale(new_lang_code) {
+
+			let new_lc = _findLangInfo(new_lang_code, available);
+
+			if (!new_lc) {
+				throw new Error(`Locale not found: ${new_lang_code}`);
+			}
+
+			_.assign(this, new_lc);
+
+			if (_.isFunction(options.onLangCodeReady)) {
+				options.onLangCodeReady(new_lc.code, req, res);
+			}
 		}
 
 		// Set up req and res:
 		res.locals.lang = localeinfo;
 		req.lang = localeinfo;
 
-		if (_.isFunction(options.onLangCodeReady)) {
-			options.onLangCodeReady(localeinfo.code, req, res);
-		}
+		localeinfo.setLocale(lc.code);
 
 		return next();
 	};
