@@ -52,14 +52,14 @@
   "homepage": "https://github.com/volebo/express-mw-lang#readme",
   "dependencies": {
     "debug": "^2.2.0",
-    "lodash": "^4.15.0"
+    "lodash": "^4.16.4"
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "eslint": "^3.3.1",
+    "eslint": "^3.7.1",
     "eslint-config-volebo": "^1.2.1",
-    "istanbul": "^0.4.4",
-    "mocha": "^3.0.2",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.1.0",
     "supertest": "^2.0.0"
   },
   "peerDependencies": {
