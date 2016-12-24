@@ -21,7 +21,7 @@ const request  = require('supertest');
 const path     = require('path');
 const express  = require('express');
 const _        = require('lodash');
-const debug    = require('debug')('volebonet:express:mw:lang:test');
+const debug    = require('debug')('volebo-express-mw-lang:test');
 const assert   = require('chai').assert;
 
 /* ROOT of the package */
@@ -44,10 +44,10 @@ describe('Test config behaviour', function(){
 
 			langmw.get('/any-path', (req, res, next) => {
 				// send the used default lang
-				assert.isNotNull(res.locals.lang);
-				assert.isNotNull(res.locals.lang.defaultLanguage);
+				assert.isNotNull(req.lang);
+				assert.isNotNull(req.lang.defaultLanguage);
 
-				res.status(200).send(res.locals.lang.defaultLanguage);
+				res.status(200).send(req.lang.defaultLanguage);
 				next();
 			});
 		});
@@ -75,7 +75,7 @@ describe('Test config behaviour', function(){
 
 			langmw.get('/any-path', (req, res, next) => {
 
-				let av = res.locals.lang.available;
+				let av = req.lang.available;
 				debug('available langs for request:', av)
 
 				let joined_codes = _(av)
@@ -111,7 +111,7 @@ describe('Test config behaviour', function(){
 
 			langmw.get('/no-available', (req, res, next) => {
 
-				let av = res.locals.lang.available;
+				let av = req.lang.available;
 				debug('available langs for request:', av)
 
 				let joined_codes = _(av)

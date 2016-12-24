@@ -18,13 +18,10 @@ program. If not, see <https://opensource.org/licenses/MIT>.
 "use strict";
 
 const request  = require('supertest');
-//const assert   = require('chai').assert;
-//const path     = require('path');
 const express  = require('express');
-//const debug    = require('debug')('volebonet:express:mw:lang:test');
+const debug    = require('debug')('volebo-express-mw-lang:test');
 
-/* ROOT of the package */
-var rt = process.cwd();
+const LangMw = require(packageRoot);
 
 describe('Language detection', function(){
 
@@ -33,7 +30,7 @@ describe('Language detection', function(){
 	const deflang = 'en';
 
 	before(function() {
-		langmw = require(rt)({
+		langmw = new LangMw({
 			defaultLanguage: deflang,
 			availableLanguages: ['en', 'ru', 'zh-CHS'],
 		});
@@ -44,7 +41,7 @@ describe('Language detection', function(){
 		// set up handler
 		before(function() {
 			langmw.get('/code', (req, res, next) => {
-				res.status(200).send(res.locals.lang.code);
+				res.status(200).send(req.lang.code);
 				next();
 			});
 		});
@@ -70,7 +67,7 @@ describe('Language detection', function(){
 		// set up handler
 		before(function() {
 			langmw.get('/default', (req, res, next) => {
-				res.status(200).send(res.locals.lang.defaultLanguage);
+				res.status(200).send(req.lang.defaultLanguage);
 				next();
 			});
 		});
@@ -102,11 +99,13 @@ describe('Language detection', function(){
 		before(function() {
 			// appending next middlewares
 			langmw.get(PATH_NO_LANG, (req, res, next) => {
+				debug(req.lang.code);
 				res.status(200).send(RESP_NO_LANG);
 				next();
 			});
 
 			langmw.post(PATH_VK, (req, res, next) => {
+				debug(req.lang.code);
 				res.status(200).send(RESP_VK);
 				next();
 			});
@@ -153,12 +152,12 @@ describe('Language detection', function(){
 			// the MW will not eat the LANG PREFIX (because it is not
 			// available), so we should add handler for the full path:
 			langmw.get('/ru-ru/code-def-unavail-lang', (req, res, next) => {
-				res.status(200).send(res.locals.lang.code);
+				res.status(200).send(req.lang.code);
 				next();
 			});
 
 			langmw.get('/zh/code-def-unavail-lang', (req, res, next) => {
-				res.status(200).send(res.locals.lang.code);
+				res.status(200).send(req.lang.code);
 				next();
 			});
 

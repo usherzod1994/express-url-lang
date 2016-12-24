@@ -21,9 +21,7 @@ const request  = require('supertest');
 const express  = require('express');
 const assert   = require('chai').assert;
 
-/* ROOT of the package */
-const rt = process.cwd();
-const LangMw = require(rt);
+const LangMw = require(packageRoot);
 
 let app = null;
 let langmw = null;
@@ -46,7 +44,7 @@ describe('Test callbacks, passed in options', function() {
 			langmw.esu(app);
 
 			langmw.get('/callback/onLangCodeReady', (req, res, next) => {
-				res.status(200).send(res.locals.lang.code);
+				res.status(200).send(req.lang.code);
 				next();
 			});
 		});
