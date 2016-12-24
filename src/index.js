@@ -21,69 +21,20 @@ const debug           = require('debug')('volebo:express:mw:lang');
 const _               = require('lodash');
 const express         = require('express');
 
+const knownLangs = require('./known-langs');
+
 let init = function(options) {
 
 	// with ISO 639-x codes
-	const knownLangs = [
-		{
-			// NOTE: do not remove the EN locale, it is library default!
-			code: 'en',
-			name: {
-				short: 'en',
-				full: 'English',
-				native: {
-					short: 'en',
-					full: 'English'
-				}
-			},
-		},
-
-		{
-			code: 'ru',
-			name: {
-				short: 'ru',
-				full: 'Russian',
-				native: {
-					short: 'рус',
-					full: 'Русский'
-				}
-			},
-		},
-		{
-			code: 'ru-RU',
-			name: {
-				short: 'ru (RU)',
-				full: 'Russian (Russia)',
-				native: {
-					short: 'рус (Рос)',
-					full: 'Русский (Россия)'
-				}
-			},
-		},
-
-		{
-			code: 'zh',
-			name: {
-				short: 'zh',
-				full: 'Chinese',
-				native: {
-					short: '吉恩斯',
-					full: '吉恩斯'
-				}
-			},
-		},
-		{
-			code: 'zh-CHS',
-			name: {
-				short: 'zh-CHS',
-				full: 'Chinese (Simplified)',
-				native: {
-					short: '那么-ES',
-					full: '吉恩斯（简体）'
-				}
-			},
-		},
-	];
+	// code: 'en',
+	// name: {
+	// 	short: 'en',
+	// 	full: 'English',
+	// 	native: {
+	// 		short: 'en',
+	// 		full: 'English'
+	// 	}
+	// },
 
 	let _findLangInfo = function (langcode, arr) {
 		return _.find(arr, kl => _.lowerCase(kl.code) === _.lowerCase(langcode));
