@@ -22,7 +22,8 @@ const express  = require('express');
 const assert   = require('chai').assert;
 
 /* ROOT of the package */
-var rt = process.cwd();
+const rt = process.cwd();
+const LangMw = require(rt);
 
 let app = null;
 let langmw = null;
@@ -33,7 +34,7 @@ describe('Test callbacks, passed in options', function() {
 		// set up handler
 		before(function() {
 			app = express();
-			langmw = require(rt)({
+			langmw = new LangMw({
 				availableLanguages: ['ru', 'en'],
 				onLangCodeReady: function(lang_code, req, res) {
 					assert.isNotNull(lang_code);

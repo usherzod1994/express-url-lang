@@ -21,20 +21,26 @@ const debug           = require('debug')('volebo:express:mw:lang');
 const _               = require('lodash');
 const express         = require('express');
 
+// array with land structures, with ISO 639-x codes
+// {
+// 	code: 'en',
+// 	name: {
+// 		short: 'en',
+// 		full: 'English',
+// 		native: {
+// 			short: 'en',
+// 			full: 'English'
+// 		}
+// 	}
+// }
+
 const knownLangs = require('./known-langs');
 
-let init = function(options) {
+const LangMw = function(options) {
+	//this._options = options;
+	//this._router = new express.Router();
 
-	// with ISO 639-x codes
-	// code: 'en',
-	// name: {
-	// 	short: 'en',
-	// 	full: 'English',
-	// 	native: {
-	// 		short: 'en',
-	// 		full: 'English'
-	// 	}
-	// },
+	const _router = new express.Router();
 
 	let _findLangInfo = function (langcode, arr) {
 		return _.find(arr, kl => _.lowerCase(kl.code) === _.lowerCase(langcode));
@@ -72,7 +78,7 @@ let init = function(options) {
 	//debug('defaultLanguage', def_lang);
 	//debug('available', available);
 
-	let router = new express.Router();
+	//let router = new express.Router();
 
 	let mw_lang_pre_handler = function mw_lang_pre_handler(req, res, next) {
 		let lang_code = _.get(req.params, 'lang');
@@ -151,11 +157,11 @@ let init = function(options) {
 		return next();
 	};
 
-	router.esu = function(app) {
-		app.use('/:lang(\\w{2})?:cult([-_]\\w{2,3})?/', mw_lang_pre_handler, router);
-	};
+	_router.esu = function(app) {
+		app.use('/:lang(\\w{2})?:cult([-_]\\w{2,3})?/', mw_lang_pre_handler, this);
+	}
 
-	return router;
+	return _router;
 }
 
-exports = module.exports = init;
+exports = module.exports = LangMw;
