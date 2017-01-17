@@ -1,7 +1,7 @@
 # Language-helper middleware for Express web server.
 
-# Copyright (C) 2016 Volebo.Net <volebo.net@gmail.com>
-# Copyright (C) 2016 Koryukov Maksim <maxkoryukov@gmail.com>
+# Copyright (C) 2016-2017 Volebo <dev@volebo.net>
+# Copyright (C) 2016-2017 Maksim Koryukov <maxkoryukov@gmail.com>
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the MIT License, attached to this software package.
@@ -34,15 +34,19 @@ cache:
     - node_modules
 
 before_install:
-  - npm install -g npm
-#  - npm install -g gulp
+  - npm config set spin false
 
 install:
+  - npm install -g npm
+  - npm install -g eslint
+  # - npm install -g gulp
   - npm install
   - npm install -g codecov
   - npm install -g bithound
+
   # peer dependency:
   - npm install express
+
 script:
 # - gulp build
   - npm run lint

@@ -1,8 +1,8 @@
 /*
 Language-helper middleware for Express web server.
 
-Copyright (C) 2016  Volebo.Net <volebo.net@gmail.com>
-Copyright (C) 2016  Koryukov Maksim <maxkoryukov@gmail.com>
+Copyright (C) 2016-2017 Volebo <dev@volebo.net>
+Copyright (C) 2016-2017 Maksim Koryukov <maxkoryukov@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the MIT License, attached to this software package.
@@ -42,7 +42,7 @@ const LangMw = function(options) {
 
 	const _router = new express.Router();
 
-	let _findLangInfo = function (langcode, arr) {
+	const _findLangInfo = function (langcode, arr) {
 		return _.find(arr, kl => _.lowerCase(kl.code) === _.lowerCase(langcode));
 	}
 
@@ -57,13 +57,13 @@ const LangMw = function(options) {
 		def_lang = def_lang_data.code;
 	}
 
-	let available_lang_codes = options.availableLanguages || [];
+	const available_lang_codes = options.availableLanguages || [];
 	available_lang_codes.push(def_lang);
 
-	let available = _(available_lang_codes)
+	const available = _(available_lang_codes)
 		.uniq()
 		.map(lcode => {
-			let lc = _findLangInfo(lcode, knownLangs);
+			const lc = _findLangInfo(lcode, knownLangs);
 
 			if (lc) {
 				return lc;
@@ -80,7 +80,7 @@ const LangMw = function(options) {
 
 	//let router = new express.Router();
 
-	let mw_lang_pre_handler = function mw_lang_pre_handler(req, res, next) {
+	const mw_lang_pre_handler = function mw_lang_pre_handler(req, res, next) {
 		let lang_code = _.get(req.params, 'lang');
 		let is_def_lang;
 
@@ -89,7 +89,7 @@ const LangMw = function(options) {
 			lang_code = def_lang;
 		} else {
 			is_def_lang = false;
-			let cult_code = _.get(req.params, 'cult', '');
+			const cult_code = _.get(req.params, 'cult', '');
 			lang_code = lang_code + cult_code;
 		}
 
@@ -105,7 +105,7 @@ const LangMw = function(options) {
 			lc = def_lang_data;
 		}
 
-		let localeinfo = {};
+		const localeinfo = {};
 
 		localeinfo.defaultLanguage = def_lang;
 		localeinfo.available = _.cloneDeep(available);
@@ -118,7 +118,7 @@ const LangMw = function(options) {
 
 			// TODO: it could be precalculated
 			// validate explicit_lang_code:
-			let lang = _findLangInfo(explicit_lang_code, available);
+			const lang = _findLangInfo(explicit_lang_code, available);
 			if (!lang) {
 				explicit_lang_code = def_lang;
 			} else {
@@ -135,7 +135,7 @@ const LangMw = function(options) {
 
 		localeinfo.setLocale = function _setLocale(new_lang_code) {
 
-			let new_lc = _findLangInfo(new_lang_code, available);
+			const new_lc = _findLangInfo(new_lang_code, available);
 
 			if (!new_lc) {
 				throw new Error(`Locale not found: ${new_lang_code}`);

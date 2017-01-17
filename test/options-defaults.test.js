@@ -1,20 +1,3 @@
-/*
-Language-helper middleware for Express web server.
-
-Copyright (C) 2016  Volebo.Net <volebo.net@gmail.com>
-Copyright (C) 2016  Koryukov Maksim <maxkoryukov@gmail.com>
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the MIT License, attached to this software package.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-
-You should have received a copy of the MIT License along with this
-program. If not, see <https://opensource.org/licenses/MIT>.
-*/
-
 "use strict";
 
 const request  = require('supertest');
@@ -25,7 +8,7 @@ const debug    = require('debug')('volebo-express-mw-lang:test');
 const assert   = require('chai').assert;
 
 /* ROOT of the package */
-var rt = process.cwd();
+const rt = process.cwd();
 
 describe('Test config behaviour', function(){
 
@@ -75,10 +58,10 @@ describe('Test config behaviour', function(){
 
 			langmw.get('/any-path', (req, res, next) => {
 
-				let av = req.lang.available;
+				const av = req.lang.available;
 				debug('available langs for request:', av)
 
-				let joined_codes = _(av)
+				const joined_codes = _(av)
 					.map('code')
 					.uniq()
 					.orderBy()
@@ -111,10 +94,10 @@ describe('Test config behaviour', function(){
 
 			langmw.get('/no-available', (req, res, next) => {
 
-				let av = req.lang.available;
+				const av = req.lang.available;
 				debug('available langs for request:', av)
 
-				let joined_codes = _(av)
+				const joined_codes = _(av)
 					.map('code')
 					.uniq()
 					.orderBy()
