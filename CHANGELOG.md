@@ -1,3 +1,6 @@
+# CHANGELOG
+
+```yaml
 ################################################################################
 #                                                                              #
 # db    db  .8888.  dP     888888b 8888ba   .8888.     d8b   db 888888b d8888P #
@@ -8,18 +11,30 @@
 #    YP     `888P'  88888P 888888P 888888'  `888P'  88 VP    8P 888888P   dP   #
 #                                                                              #
 ################################################################################
+```
 
-Language-helper middleware for Express web server.
+# CHANGELOG
 
-Copyright (C) 2016-2017 Volebo <dev@volebo.net>
-Copyright (C) 2016-2017 Maksim Koryukov <maxkoryukov@gmail.com>
+This is the history of changes of the `volebo/express-mw-lang` project.
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the MIT License, attached to this software package.
+This file **MUST** be filled **ONLY** by maintainers, using messages from pull
+requests.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+Please, follow this [guide](http://keepachangelog.com/en/0.3.0/).
 
-You should have received a copy of the MIT License along with this
-program. If not, see <https://opensource.org/licenses/MIT>.
+## unpublished // ??
+
+## 2.0.0 // 2017-10-28
+
+* hack/workaround for problem with `/me` URLs (previoulsy they lead to 404)
+* throw Errors on invalid options (like a wrong `defaultLanguage`)
+
+* rename `onLangCodeReady` => `onLangDetected`
+* expose `available` and `defaultLanguage` properties from the created Router object
+
+* update all deps
+* add changelog
+
+## 1.3.2 // ???
+
+Evolution without changelogs...

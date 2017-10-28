@@ -106,11 +106,10 @@ app.listen(3000, function() {
 ## Options
 
 ```javascript
-var options = {
+const options = {
 	defaultLanguage: 'en',
 	availableLanguages: [],
-	onLangCodeReady: function(lang_code, req, res) {
-	}
+	onLangDetected: function(langCode, req, res) {}
 };
 ```
 
@@ -129,9 +128,9 @@ Languages, which will be recognized by middleware.
 1. Default language is always available
 2. For requests to unavailable language the response will contain redirect to the `/` of the site.
 
-#### `onLangCodeReady`
+#### `onLangDetected`
 
-Defalt: **`null`**, function(lang_code, req, res)
+Defalt: **`null`**, _function(langCode, req, res)_
 
 Callback, called when the lang is determined. Convenient place to setup the locale for `momentjs` or choosen i18n library.
 
@@ -140,22 +139,22 @@ Callback, called when the lang is determined. Convenient place to setup the loca
 ```javascript
 
 var i18n            = require("i18n")
-var moment          = require('moment');
+var moment          = require('moment')
 
 // ...
 
 let options = {
 	defaultLanguage: 'en',
 	availableLanguages: ['en', 'ru'],
-	onLangCodeReady: function(lang_code, req, res) {
+	onLangDetected: function(lang_code, req, res) {
 
-		i18n.setLocale(lang_code);
-		i18n.setLocale(req, lang_code);
-		i18n.setLocale(res, lang_code);
+		i18n.setLocale(lang_code)
+		i18n.setLocale(req, lang_code)
+		i18n.setLocale(res, lang_code)
 
-		moment.locale(lang_code);
+		moment.locale(lang_code)
 	}
-};
+}
 ```
 
 ## `req` and `res` extensions

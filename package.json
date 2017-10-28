@@ -49,16 +49,18 @@
   },
   "homepage": "https://github.com/volebo/express-mw-lang#readme",
   "dependencies": {
-    "debug": "^2.5.1",
-    "lodash": "^4.17.2"
+    "debug": "^3.1.0",
+    "deep-freeze": "0.0.1",
+    "lodash": "^4.17.4"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
-    "eslint": "^3.7.1",
-    "eslint-config-volebo": "^2.1.1",
+    "@volebo/mocha-helpers": "^0.1.0",
+    "chai": "^4.1.2",
+    "eslint": "^4.10.0",
+    "eslint-config-volebo": "^2.3.3",
     "istanbul": "^0.4.5",
-    "mocha": "^3.1.0",
-    "supertest": "^2.0.0"
+    "mocha": "^4.0.1",
+    "supertest": "^3.0.0"
   },
   "peerDependencies": {
     "express": "4.x"

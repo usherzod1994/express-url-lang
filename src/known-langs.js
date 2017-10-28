@@ -1,4 +1,15 @@
 /*
+################################################################################
+#                                                                              #
+# db    db  .8888.  dP     888888b 8888ba   .8888.     d8b   db 888888b d8888P #
+# 88    88 d8'  `8b 88     88      88  `8b d8'  `8b    88V8  88 88        88   #
+# Y8    8P 88    88 88    a88aaa   88aa8P' 88    88    88 V8 88 88aaa     88   #
+# `8b  d8' 88    88 88     88      88  `8b 88    88    88  V888 88        88   #
+#  `8bd8'  Y8.  .8P 88     88      88  .88 Y8.  .8P dP 88   V88 88        88   #
+#    YP     `888P'  88888P 888888P 888888'  `888P'  88 VP    8P 888888P   dP   #
+#                                                                              #
+################################################################################
+
 Language-helper middleware for Express web server.
 
 Copyright (C) 2016-2017 Volebo <dev@volebo.net>
@@ -15,12 +26,15 @@ You should have received a copy of the MIT License along with this
 program. If not, see <https://opensource.org/licenses/MIT>.
 */
 
-"use strict";
+'use strict'
+
+const _ = require('lodash')
 
 // TODO : load from ICU
-module.exports = [
+const _langs = [
 	{
 		// NOTE: do not remove the EN locale, it is library default!
+		// https://en.wikipedia.org/wiki/IETF_language_tag
 		code: 'en',
 		name: {
 			short: 'en',
@@ -28,6 +42,30 @@ module.exports = [
 			native: {
 				short: 'en',
 				full: 'English'
+			}
+		},
+	},
+
+	{
+		code: 'en-GB',
+		name: {
+			short: 'en (GB)',
+			full: 'English (GB)',
+			native: {
+				short: 'en (GB)',
+				full: 'English (GB)'
+			}
+		},
+	},
+
+	{
+		code: 'en-US',
+		name: {
+			short: 'en (US)',
+			full: 'English (US)',
+			native: {
+				short: 'en (US)',
+				full: 'English (US)'
 			}
 		},
 	},
@@ -43,6 +81,7 @@ module.exports = [
 			}
 		},
 	},
+
 	{
 		code: 'ru-RU',
 		name: {
@@ -77,4 +116,8 @@ module.exports = [
 			}
 		},
 	},
-];
+]
+
+const _dic = _.keyBy(_langs, v => v.code.toLowerCase())
+
+module.exports = _dic

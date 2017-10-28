@@ -1,27 +1,32 @@
-"use strict";
+/**
+ * Tests, that REQ and RES has all declared fields and methods
+ * attached by this middleware
+ */
 
-const request  = require('supertest');
-const assert   = require('chai').assert;
-const path     = require('path');
-const express  = require('express');
+'use strict'
+
+const request  = require('supertest')
+const assert   = require('chai').assert
+const path     = require('path')
+const express  = require('express')
 //const debug    = require('debug')('volebonet:express:mw:lang:test');
 
 /* ROOT of the package */
 const rt = process.cwd();
 
-describe('Res/Req `lang` functions', function(){
+describe(filename2suitename(__filename), function(){
 
-	const app = express();
-	let langmw = {};
-	const deflang = 'zh';
+	const app = express()
+	let langmw = {}
+	const deflang = 'zh'
 
 	before(function() {
 		langmw = require(path.join(rt, ''))({
 			defaultLanguage: deflang,
 			availableLanguages: ['en', 'ru', 'zh-CHS'],
-		});
-		langmw.esu(app);
-	});
+		})
+		langmw.esu(app)
+	})
 
 	describe('on valid request `res` and `req`', function() {
 
@@ -30,24 +35,25 @@ describe('Res/Req `lang` functions', function(){
 			before(function() {
 				langmw.get('/valid-path', (req, res, next) => {
 
-					assert.isNotNull(req.lang);
-					assert.isNotNull(res.locals.lang);
-					assert.strictEqual(req.lang, res.locals.lang);
+					assert.isNotNull(req.lang)
+					assert.isNotNull(res.locals.lang)
+					assert.strictEqual(req.lang, res.locals.lang)
 
-					assert.property(req.lang, 'code');
-					assert.property(req.lang, 'available');
+					assert.property(req.lang, 'code')
+					assert.property(req.lang, 'available')
+					assert.property(req.lang, 'defaultLanguage', deflang)
 
-					res.status(200).send('pong');
-					next();
-				});
-			});
+					res.status(200).send('pong')
+					next()
+				})
+			})
 
 			it('`lang` has all properties', done => {
 				request(app)
 					.get('/valid-path')
 					.expect(200, done);
-			});
-		});
+			})
+		})
 
 		describe('function: lang.routeTo', function () {
 

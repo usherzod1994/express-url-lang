@@ -1,3 +1,4 @@
+/*
 ################################################################################
 #                                                                              #
 # db    db  .8888.  dP     888888b 8888ba   .8888.     d8b   db 888888b d8888P #
@@ -23,3 +24,27 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 You should have received a copy of the MIT License along with this
 program. If not, see <https://opensource.org/licenses/MIT>.
+*/
+
+'use strict'
+
+const path     = require('path')
+
+const LangMw   = require(path.normalize('../'))
+
+
+describe(filename2suitename(__filename), function(){
+
+	describe('constructor', () => {
+
+		describe('without options', () => {
+			it('should succeed', () => {
+				const langmw = new LangMw()
+
+				expect(langmw).exist
+				// TODO: remove this assertion:
+				expect(langmw).has.property('esu')
+			})
+		})
+	})
+})

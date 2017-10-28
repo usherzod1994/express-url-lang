@@ -52,10 +52,8 @@ script:
   - npm run lint
   - npm test
   - npm run coverage
-  - bithound check git@github.com:$TRAVIS_REPO_SLUG.git
-
-after_success:
   - codecov
+  - bithound check git@github.com:$TRAVIS_REPO_SLUG.git
 
 deploy:
   provider: npm
@@ -67,3 +65,7 @@ deploy:
     tags: true
     node_js: 6
     repo: volebo/express-mw-lang
+
+after_deploy:
+  # Send notification to Slack:
+  - curl -sL https://raw.githubusercontent.com/volebo/dev/master/scripts/im/slack-publish.sh | bash -s -
