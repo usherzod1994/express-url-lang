@@ -118,6 +118,6 @@ const _langs = [
 	},
 ]
 
-const _dic = _.keyBy(_langs, v => v.code.toLowerCase())
+const _dic = _.keyBy(_langs, v => v.code.toLowerCase())
 
 module.exports = _dic
