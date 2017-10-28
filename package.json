@@ -1,6 +1,6 @@
 {
   "name": "express-mw-lang",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Language-helper middleware for Express web server.",
   "main": "./src/",
   "scripts": {
