@@ -26,7 +26,7 @@ Please, follow this [guide](http://keepachangelog.com/en/0.3.0/).
 
 ## 2.0.0 // 2017-10-28
 
-* hack/workaround for problem with `/me` URLs (previoulsy they lead to 404)
+* workaround (or hack) for problem with `/me` URLs (previoulsy they lead to 404)
 * throw Errors on invalid options (like a wrong `defaultLanguage`)
 
 * rename `onLangCodeReady` => `onLangDetected`
