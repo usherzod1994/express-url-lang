@@ -1,5 +1,5 @@
 {
-  "name": "express-mw-lang",
+  "name": "express-url-lang",
   "version": "2.0.2",
   "description": "Language-helper middleware for Express web server.",
   "main": "./src/",
