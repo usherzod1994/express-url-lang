@@ -95,13 +95,13 @@ const _langs = [
 	},
 
 	{
-		code: 'zh',
+		code: 'uz',
 		name: {
-			short: 'zh',
-			full: 'Chinese',
+			short: 'uz',
+			full: 'Uzbek',
 			native: {
-				short: '吉恩斯',
-				full: '吉恩斯'
+				short: 'uz',
+				full: 'Uzbek'
 			}
 		},
 	},
