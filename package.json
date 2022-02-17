@@ -26,17 +26,17 @@
   ],
   "author": {
     "name": "Volebo",
-    "url": "http://dev.volebo.net",
-    "email": "dev@volebo.net"
+    "url": "http://utaganov.uz",
+    "email": "usherzod1994@gmail.com"
   },
   "contributors": [
     {
-      "name": "Maksim Koryukov",
-      "email": "maxkoryukov@gmail.com"
+      "name": "Sherzod Utaganov",
+      "email": "usherzod1994@gmail.com"
     },
     {
-      "name": "Volebo",
-      "url": "http://dev.volebo.net"
+      "name": "Sherzod",
+      "url": "http://utaganov.uz"
     }
   ],
   "engines": {

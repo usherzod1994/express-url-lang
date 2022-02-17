@@ -38,14 +38,14 @@ See the [Example section](#examples) for more details.
 Install:
 
 ```bash
-$ npm install express-mw-lang
+$ npm install express-url-lang
 ```
 
 Configure and use in the `app.js`:
 
 ```javascript
 // ...
-var langGen = require('express-mw-lang');
+var langGen = require('express-url-lang');
 var app = express();
 
 // ...
@@ -63,7 +63,7 @@ langmw.esu(app);
 var express         = require('express');
 var logger          = require('morgan');          // just for example, not required
 var bodyParser      = require('body-parser');     // just for example, not required
-var langGen         = require('express-mw-lang');
+var langGen         = require('express-url-lang');
 
 var app = express();
 
